@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
-const bodyparser = require('body-parser');
 
 app.set('Port', 8080);
 app.use(morgan('dev'));
