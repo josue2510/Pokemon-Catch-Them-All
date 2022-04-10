@@ -20,7 +20,7 @@ PokemonCtrl.getPokemonImage = (req,res) => {
                 res.sendFile(imagePath);
             })
             .catch(error => {
-                res.status(error.response.status).send(error.response.statusText).end;
+                res.status(404).send('Not found').end;
             });
     }
     else {
