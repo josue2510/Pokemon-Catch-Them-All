@@ -2,7 +2,7 @@ const PokemonCtrl = {};
 const axios = require('axios');
 const Fs = require('fs');
 
-PokemonCtrl.get = (req,res) => {
+PokemonCtrl.getPokemonImage = (req,res) => {
     const imageType = req.query.imageType == undefined ? 'front_default' : req.query.imageType;
 
     if (req.query.name != undefined && (imageType == 'front_default' || imageType == 'front_shiny')) {
@@ -27,6 +27,20 @@ PokemonCtrl.get = (req,res) => {
         res.status(400).send('Bad request').end;
     }
 };
+
+PokemonCtrl.getImageStatus = (req,res)=> {
+    var imageStatus;
+    const imageShiny = `${req.params.pokemon}_front_shiny.png`;
+    const imageDefault = `${req.params.pokemon}_front_default.png`;
+
+    if (Fs.existsSync(`./downloads/${imageShiny}`) || Fs.existsSync(`./downloads/${imageDefault}`)) {
+        imageStatus = {status: 'cache'};
+    } else {
+        imageStatus = {status: 'unknown'};
+    }
+
+    res.send(imageStatus);
+}
 
 async function downloadImage(url, fileName) {
     const writer = Fs.createWriteStream(`./downloads/${fileName}`);
